@@ -16,10 +16,10 @@ namespace FFTDemoApp
     public partial class MainWindow : System.Windows.Window
     {
 
-        #region 变量定义
+        #region FFT
 
         int size = 4096;
-        int fs = 4000 * 10;
+        int fs = 44100;
         double[] reFFT;
         double[] imFFT;
 
@@ -92,13 +92,13 @@ namespace FFTDemoApp
             InitializeComponent();
 
             yAxes.Maximum = 40;
+
             for (int i = 0; i < WaveIn.DeviceCount; i++)
             {
                 var deviceInfo = WaveIn.GetCapabilities(i);
                 Console.WriteLine(String.Format("Device {0}: {1}, {2} channels",
                     i, deviceInfo.ProductName, deviceInfo.Channels));
             }
-
 
             WaveIn waveIn = new WaveIn()
             {
@@ -120,7 +120,7 @@ namespace FFTDemoApp
             }
         }
 
-        List<double> _recorded = new List<double>(); // 音声データ
+        List<double> _recorded = new List<double>();
         public LineSeries _lineSeries = new LineSeries();
 
 
@@ -133,7 +133,7 @@ namespace FFTDemoApp
             if (_recorded.Count == windowsize)
             {
                 #region add
-                // DFT用データ
+
                 double[] dftIn = new double[size];
                 double[] dftInIm = new double[size];
                 DataPoint[] DftIn = new DataPoint[size];
